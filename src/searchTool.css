@@ -1,7 +1,6 @@
 .searchTool__inputContainer {
     background-color: white;
     padding: 2px 0;
-    margin: 0 5px;
     border-radius: 5px;
     width: 100%;
     display: flex;
@@ -10,7 +9,7 @@
 }
 
 .SearchTool__icon {
-    margin-left: 0;
+    margin:0 3px;
     width: 20px;
     display: flex;
     align-items: center;
@@ -19,7 +18,7 @@
 .searchTool__input {
     border: none;
     outline: none;
-    margin-left: 5px;
+        
     color: #a19f9f;
     font-size: 22px;
     width: 100%;
@@ -34,7 +33,7 @@
     background-color: white;
     color: #a19f9f;
     font-size: 20px;
-    margin: -5px 5px 0 5px;
+    margin: -5px 0;
     border-left: 1px solid #a19f9f;
     border-right: 1px solid #a19f9f;
     border-bottom: 1px solid #a19f9f;

@@ -25,11 +25,20 @@ export default class SearchTool extends Component {
         });
     };
 
+    // titleCase input request because thats what api expects  
+
+    titleCase = str => {
+      return str.replace(/\w\S*/g, txt => {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+  };
+
     // handle search from input on enter
+   
 
     onEnter = e => {
         if (e.key === "Enter") {
-            this.props.selectSuggestion(this.state.inputValue);
+            this.props.selectSuggestion(this.titleCase(this.state.inputValue));
         }
     };
 
@@ -56,7 +65,7 @@ export default class SearchTool extends Component {
 
                     <input
                         className="searchTool__input"
-                        placeholder='Enter city name'
+                        placeholder="Enter city name"
                         onChange={this.handleInputChange}
                         value={inputValue}
                         onKeyPress={this.onEnter}
