@@ -1,25 +1,66 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { requestLocationData, getAllLocations } from "./api/api";
+import SearchTool from "./SearchTool";
+import DisplayContainer from "./DisplayContainer";
+import "./App.css";
 
 class App extends Component {
+  state = {
+    locations: [],
+    selectedLocations: [],
+    selectedSuggestion: ""
+  };
+
+  selectSuggestion = selectedSuggestion => {
+    requestLocationData(selectedSuggestion)
+      .then(response => {
+        response.data.results.length &&
+          this.setState({
+            selectedLocations: [
+              ...this.state.selectedLocations,
+              response.data.results[0]
+            ]
+          });
+      });
+  };
+
+  removeDisplayCard = (location)=>{
+    this.setState({
+      selectedLocations: this.state.selectedLocations.filter((res)=>{
+        return res.location !== location
+      })
+    })
+    
+  }
+
+  componentDidMount() {
+   getAllLocations()
+      .then(response => {
+        // handle success
+        this.setState(
+          {
+            locations: response.data.results.map(item => item.location)
+          },
+        );
+      })
+      .catch(error => {
+        // handle error
+        console.log(error);
+      });
+  }
   render() {
+    const { locations, selectedLocations } = this.state;
+    
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="App-container">
+        <h1>Compare your Air</h1>
+        <p>compare the air quality between cities in the UK.</p>
+        <p>Select cities to compare using the search tool below. </p>
+        <SearchTool
+          options={locations}
+          selectSuggestion={this.selectSuggestion}
+        />
+        <DisplayContainer results={selectedLocations} removeDisplayCard={this.removeDisplayCard} />
       </div>
     );
   }
